@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘 뭐 먹지? - 맛있는 음식 추천</title>
+    <style>
+        /* 기본 스타일 초기화 및 폰트 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff6b6b;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .random-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .random-btn:hover {
+            background-color: #ee5253;
+            transform: translateY(-2px);
+        }
+
+        /* 메인 콘텐츠 메인 레이아웃 */
+        container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+            text-align: center;
+        }
+
+        /* 음식 카드 그리드 */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .food-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 1.5rem;
+        }
+
+        .food-category {
+            font-size: 0.85rem;
+            color: #ff6b6b;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .food-title {
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+            color: #333;
+        }
+
+        .food-desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .food-tag {
+            display: inline-block;
+            background-color: #f1f3f5;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #495057;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: #343a40;
+            color: #f8f9fa;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* 간단한 반응형 설정 */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 영역 -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">🍕 오늘 뭐 먹지?</a>
+            <nav>
+                <ul>
+                    <li><a href="#recommend">오늘의 추천</a></li>
+                    <li><a href="#korean">한식</a></li>
+                    <li><a href="#western">양식</a></li>
+                    <li><a href="#asian">일식/중식</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 히어로(메인 배너) 영역 -->
+    <section class="hero">
+        <h1>오늘 점심, 저녁 메뉴가 고민되시나요?</h1>
+        <p>기분에 따라, 날씨에 따라 딱 맞는 맛있는 음식을 추천해 드립니다.</p>
+        <button class="random-btn" onclick="recommendRandom()">🎲 아무거나 추천받기</button>
+    </section>
+
+    <!-- 음식 카드 목록 영역 -->
+    <container>
+        <h2 class="section-title" id="recommend">🔥 인기 추천 메뉴</h2>
+        
+        <div class="food-grid">
+            <!-- 음식 카드 1 -->
+            <div class="food-card">
+                <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80" alt="비빔밥" class="food-img">
+                <div class="food-info">
+                    <span class="food-category">한식</span>
+                    <h3 class="food-title">전통 비빔밥</h3>
+                    <p class="food-desc">신선한 나물과 고소한 참기름, 매콤한 고추장의 완벽한 조화!</p>
+                    <span class="food-tag">#건강식</span>
+                    <span class="food-tag">#매콤달콤</span>
+                </div>
+            </div>
+
+            <!-- 음식 카드 2 -->
+            <div class="food-card">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="샐러드 볼" class="food-img">
+                <div class="food-info">
+                    <span class="food-category">양식 / 샐러드</span>
+                    <h3 class="food-title">아보카도 샐러드</h3>
+                    <p class="food-desc">부담 없이 가볍게 즐기고 싶을 때 추천하는 신선한 샐러드.</p>
+                    <span class="food-tag">#다이어트</span>
+                    <span class="food-tag">#가벼운한끼</span>
+                </div>
+            </div>
+
+            <!-- 음식 카드 3 -->
+            <div class="food-card">
+                <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" alt="라멘" class="food-img">
+                <div class="food-info">
+                    <span class="food-category">일식</span>
+                    <h3 class="food-title">진한 돈코츠 라멘</h3>
+                    <p class="food-desc">깊고 진한 돼지사골 육수에 쫄깃한 면발이 일품인 라멘.</p>
+                    <span class="food-tag">#국물요리</span>
+                    <span class="food-tag">#비오는날</span>
+                </div>
+            </div>
+
+            <!-- 음식 카드 4 -->
+            <div class="food-card">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="피자" class="food-img">
+                <div class="food-info">
+                    <span class="food-category">양식</span>
+                    <h3 class="food-title">화덕 페퍼로니 피자</h3>
+                    <p class="food-desc">짭조름한 페퍼로니와 고소한 치즈가 듬뿍 들어간 피자.</p>
+                    <span class="food-tag">#파티</span>
+                    <span class="food-tag">#맥주안주</span>
+                </div>
+            </div>
+        </div>
+    </container>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <p>&copy; 2026 오늘 뭐 먹지? All rights reserved.</p>
+    </footer>
+
+    <!-- 자바스크립트 (랜덤 추천 기능) -->
+    <script>
+        const foods = [
+            '뜨끈한 김치찌개',
+            '바삭한 돈까스',
+            '매콤한 떡볶이',
+            '신선한 초밥',
+            '고소한 짜장면',
+            '치즈 듬뿍 피자',
+            '육즙 가득 삼겹살'
+        ];
+
+        function recommendRandom() {
+            const randomIndex = Math.floor(Math.random() * foods.length);
+            const selectedFood = foods[randomIndex];
+            alert(`오늘 추천하는 메뉴는 바로... 🎉 [ ${selectedFood} ] 입니다!`);
+        }
+    </script>
+</body>
+</html>
